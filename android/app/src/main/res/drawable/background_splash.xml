@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:drawable="@color/milk" />
+	<item
+		android:drawable="@drawable/ic_roads"
+		android:gravity="center"
+		android:bottom="20dp"/>
+</layer-list>

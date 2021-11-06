@@ -1,0 +1,49 @@
+{
+	"testRunner": "jest",
+	"runnerConfig": "e2e/config.json",
+	"skipLegacyWorkersInjection": true,
+	"devices": {
+		"emulator": {
+			"type": "android.emulator",
+			"device": {
+				"avdName": "Nexus 5"
+			}
+		},
+		"phone": {
+			"type": "android.attached",
+			"device": {
+			"adbName": "R58M54RNH2K"
+			}
+		}
+	},
+	"apps": {
+		"android.debug": {
+			"type": "android.apk",
+			"binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+			"build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd .."
+		},
+		"android.release": {
+			"type": "android.apk",
+			"binaryPath": "android/app/build/outputs/apk/releaseE2E/app-releaseE2E.apk",
+			"build": "cd android && ./gradlew assembleReleaseE2E assembleAndroidTest -DtestBuildType=release && cd .."
+		}
+	},
+	"configurations": {
+		"android.emu.debug": {
+			"device": "emulator",
+			"app": "android.debug"
+		},
+		"android.p.debug": {
+			"device": "phone",
+			"app": "android.debug"
+		},
+		"android.emu.release": {
+			"device": "emulator",
+			"app": "android.release"
+		},
+		"android.p.release": {
+			"device": "phone",
+			"app": "android.release"
+		}
+	}
+}

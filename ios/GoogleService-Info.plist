@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>924541702990-k0bj7h4dko65jomkkel1ge8nl6qqqjua.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.924541702990-k0bj7h4dko65jomkkel1ge8nl6qqqjua</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCjaa01gpd4j1x667J54YQ_xFRBy7nWIzg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>924541702990</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.odva.roads</string>
+	<key>PROJECT_ID</key>
+	<string>roads-go</string>
+	<key>STORAGE_BUCKET</key>
+	<string>roads-go.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:924541702990:ios:68c4d8531aeb439977841f</string>
+</dict>
+</plist>

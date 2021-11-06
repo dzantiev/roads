@@ -1,0 +1,118 @@
+name: detox-android-test
+env:
+  API_URL: 'https://roads.odva.fun'
+  API_URL_SIGNUP: 'https://roads.odva.fun/element/api/ext/auth/index/signup/'
+  API_URL_SIGNIN: 'https://roads.odva.fun/element/api/ext/auth/index/signin/'
+  API_URL_SIGNOUT: 'https://roads.odva.fun/element/api/ext/auth/index/signout/'
+  API_URL_ISLOGGED: 'https://roads.odva.fun/element/api/ext/auth/index/isLogged/'
+  API_URL_TRYCHANGEPHONE: 'https://roads.odva.fun/element/api/ext/auth/index/tryChangePhone/'
+  API_URL_CHANGEPHONE: 'https://roads.odva.fun/element/api/ext/auth/index/changePhone/'
+  API_URL_SELECT: 'https://roads.odva.fun/element/api/el/select/'
+  API_URL_INSERT: 'https://roads.odva.fun/element/api/el/insert/'
+  API_URL_DELETE: 'https://roads.odva.fun/element/api/el/delete/'
+  API_URL_UPDATE: 'https://roads.odva.fun/element/api/el/update/'
+  API_URL_UPLOAD: 'https://roads.odva.fun/element/api/field/em_file/index/upload/'
+  API_TOKEN: '38edde6f9117166bad3d0539c074f082'
+  APP_METRICA_KEY: 'd8d02eb9-19d6-4b1a-926d-aa85eb240dbf'
+
+on:
+  push:
+    branches: [route-detail-page]
+  # pull_request:
+  #   branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    # runs-on: ubuntu-latest
+    runs-on: macOS-latest
+    timeout-minutes: 20
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      # - uses: joschi/setup-jdk@v2
+      #   with:
+      #     java-version: '8'
+
+      - name: Download Android Emulator Image
+        run: |
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
+          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 5" -k 'system-images;android-29;google_apis;x86'
+          $ANDROID_HOME/emulator/emulator -list-avds
+
+      - name: Install node_modules
+        run: |
+          npm install
+
+      - name: Build for detox
+        run: |
+          npm run build:debug
+
+      - name: Android Emulator
+        timeout-minutes: 10
+        continue-on-error: true
+        run: |
+          echo "Starting emulator"
+          nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          $ANDROID_HOME/platform-tools/adb devices
+          echo "Emulator started"
+
+      - name: Start ReactNAtive and Run Detox
+        run: npm run dev:test & npm run test:debug
+
+      # - name: Android list
+      #   run: android list
+
+      # =================================
+
+      # - name: Node
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '14'
+
+      # - name: Use specific Java version for sdkmanager to work
+      #   uses: joschi/setup-jdk@v2
+      #   with:
+      #     java-version: '14'
+
+      # - name: Download Android Emulator Image
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #     api-level: 29
+      #     profile: Nexus 6
+      #     emulator-build: 6110076
+      #     # emulator-build: 7425822
+      #     # script: ./gradlew connectedCheck
+      #     script: echo "Generated AVD."
+
+      # - name: Install node_modules
+      #   run: |
+      #     npm install
+
+      # - name: Build for detox
+      #   run: |
+      #     npm run build:debug
+
+      # - name: Android Emulator
+      #   timeout-minutes: 15
+      #   continue-on-error: true
+      #   run: |
+      #     echo "Starting emulator"
+      #     nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
+      #     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+      #     $ANDROID_HOME/platform-tools/adb devices
+      #     echo "Emulator started"
+
+      # - name: Android Detox
+      #   run: npm run dev:test & npm run test:debug

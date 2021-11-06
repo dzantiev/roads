@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "924541702990",
+    "project_id": "roads-go",
+    "storage_bucket": "roads-go.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924541702990:android:cc1c0ed7127f00ee77841f",
+        "android_client_info": {
+          "package_name": "com.odva.roads"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924541702990-q0q1hd6v4jd431hrrovobdj49ni4cllm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-7RgeXaqWtKp_7DFl654DwxCIZMoGWvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924541702990-q0q1hd6v4jd431hrrovobdj49ni4cllm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "924541702990-k0bj7h4dko65jomkkel1ge8nl6qqqjua.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.odva.roads"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

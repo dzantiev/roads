@@ -1,0 +1,43 @@
+for android
+
+curl -X POST -H "Authorization: key=AAAA10L6004:APA91bHwZfIlyO-1fQJUlWC5MQQYGpLLh6_pf-Ot9bFsn0vayIlywZu-Xr88sTL1yG2tDHcvOkhDyx_EaoaFO9Lf5yAeuCGTwiRDOlg9z4tEjG5mxQuJL2RcbN_WVDj6BwxaHVYkVXkr" \
+   -H "Content-Type: application/json" \
+   -d '{
+    "data": {
+        "link": "https://www.roads-go.ru/link/main/cabinet",
+        "notification": {
+            "title": "FCM Message",
+            "body": "This is an FCM Message",
+        },
+    },
+    "priority": "high"
+    "to": "clls278wSpiDzzyLUF7Z37:APA91bHSxYpuA157_cHZnOCiIakD7BlFQArYV71qC3hF9ZvbpzUKD3bQI4i0mQMSlTcqDP5OVnO-TFObm6VPqRWgQeO8gHF44kr7jtckMNOtVn94pMLQxHubPR4yBHPTXGUJlP_U5q6N"
+}' https://fcm.googleapis.com/fcm/send
+
+
+for ios
+
+curl -X POST -H "Authorization: key=AAAA10L6004:APA91bHwZfIlyO-1fQJUlWC5MQQYGpLLh6_pf-Ot9bFsn0vayIlywZu-Xr88sTL1yG2tDHcvOkhDyx_EaoaFO9Lf5yAeuCGTwiRDOlg9z4tEjG5mxQuJL2RcbN_WVDj6BwxaHVYkVXkr" \
+   -H "Content-Type: application/json" \
+   -d '{
+    "data": {
+        "link": "https://www.roads-go.ru/detail/route/15",
+    },
+    "notification": {
+        "title": "FCM Message",
+        "body": "This is an FCM Message",
+    },
+    "to": "crJOWVWLRCGFif7hQZDjRq:APA91bHocxPdxMz5zeUqvlcUG_Rv9Rra4pSaTe4iNf3GQUEz3mmbsGH7zfFCqA4_y3bdNK0aVEp7Z9pho5OhyU9fLZ-EcUCpUmFw4x9ykQaXSmgsyUsCFVew12bKLt1gP1AmuajeMDbW"
+}' https://fcm.googleapis.com/fcm/send
+
+
+
+curl -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+   -d '{"phone": "76666666666"}' https://roads-go.ru/element/api/ext/auth/index/signup/?token=38edde6f9117166bad3d0539c074f082
+
+
+detox build -c android.p.debug
+detox test -c android.p.debug --detectOpenHandles
+
+RN_SRC_EXT=e2e.js detox build -c android.emu.release
+detox test -c android.p.release
