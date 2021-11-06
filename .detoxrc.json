@@ -6,7 +6,7 @@
 		"emulator": {
 			"type": "android.emulator",
 			"device": {
-				"avdName": "Nexus 5"
+				"avdName": "emulator-5554"
 			}
 		},
 		"phone": {

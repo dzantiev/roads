@@ -17,7 +17,7 @@ env:
 
 on:
   push:
-    branches: [route-detail-page]
+    branches: [main]
   # pull_request:
   #   branches: [ main ]
 
