@@ -17,7 +17,7 @@ env:
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   # pull_request:
   #   branches: [ main ]
 
@@ -25,51 +25,93 @@ on:
 
 jobs:
   build:
-    # runs-on: ubuntu-latest
+    name: E2E (Android)
     runs-on: macOS-latest
-    timeout-minutes: 20
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v1
 
-      - uses: actions/setup-node@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      - uses: joschi/setup-jdk@v2
+      - name: Install Npm Dependencies
+        run: npm install
+
+      - name: Install Java JDK
+        uses: joschi/setup-jdk@v2
         with:
           java-version: '8'
+          architecture: 'x64'
+        env:
+          # https://github.com/actions/toolkit/issues/641#issuecomment-728963957
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
-      - name: Download Android Emulator Image
-        run: |
-          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
-          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 5" -k 'system-images;android-29;google_apis;x86'
-          $ANDROID_HOME/emulator/emulator -list-avds
+      - name: Run Detox Build
+        run: npm run build:debug
 
-      - name: Install node_modules
-        run: |
-          npm install
+      - name: Run Detox Test(s)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          target: default
+          arch: x86_64
+          profile: pixel
+          avd-name: Pixel_API_29_AOSP
+          script: bash ${{ github.workspace }}/scripts/run-e2e-android-release.sh
 
-      - name: Build for detox
-        run: |
-          npm run build:debug
 
-      - name: Android Emulator
-        timeout-minutes: 10
-        continue-on-error: true
-        run: |
-          echo "Starting emulator"
-          nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
-          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
-          $ANDROID_HOME/platform-tools/adb devices
-          echo "Emulator started"
 
-      - name: Start ReactNAtive and Run Detox
-        run: npm run dev:test & npm run test:debug
+
+
+
+    # ===============
+    # runs-on: ubuntu-latest
+    # runs-on: macOS-latest
+    # timeout-minutes: 20
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    # steps:
+    #   - name: Checkout
+    #     uses: actions/checkout@v2
+    #     with:
+    #       fetch-depth: 1
+
+    #   - uses: actions/setup-node@v2
+    #     with:
+    #       node-version: '14'
+
+    #   - uses: joschi/setup-jdk@v2
+    #     with:
+    #       java-version: '8'
+
+    #   - name: Download Android Emulator Image
+    #     run: |
+    #       echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
+    #       echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 5" -k 'system-images;android-29;google_apis;x86'
+    #       $ANDROID_HOME/emulator/emulator -list-avds
+
+    #   - name: Install node_modules
+    #     run: |
+    #       npm install
+
+    #   - name: Build for detox
+    #     run: |
+    #       npm run build:debug
+
+    #   - name: Android Emulator
+    #     timeout-minutes: 10
+    #     continue-on-error: true
+    #     run: |
+    #       echo "Starting emulator"
+    #       nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
+    #       $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+    #       $ANDROID_HOME/platform-tools/adb devices
+    #       echo "Emulator started"
+
+    #   - name: Start ReactNAtive and Run Detox
+    #     run: npm run dev:test & npm run test:debug
 
       # - name: Android list
       #   run: android list

@@ -6,7 +6,7 @@
 		"emulator": {
 			"type": "android.emulator",
 			"device": {
-				"avdName": "emu"
+				"avdName": "Pixel_API_29_AOSP"
 			}
 		},
 		"phone": {
