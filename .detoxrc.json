@@ -20,11 +20,13 @@
 		"android.debug": {
 			"type": "android.apk",
 			"binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+			"utilBinaryPaths": ["./cache/test-butler-app.apk"],
 			"build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd .."
 		},
 		"android.release": {
 			"type": "android.apk",
 			"binaryPath": "android/app/build/outputs/apk/releaseE2E/app-releaseE2E.apk",
+			"utilBinaryPaths": ["./cache/test-butler-app.apk"],
 			"build": "cd android && ./gradlew assembleReleaseE2E assembleAndroidTest -DtestBuildType=release && cd .."
 		}
 	},
