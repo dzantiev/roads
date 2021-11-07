@@ -57,6 +57,7 @@ jobs:
           api-level: 29
           target: default
           arch: x86_64
-          profile: pixel
+          # profile: pixel
+          profile: Nexus 6
           avd-name: Pixel_4_API_29
           script: bash ${{ github.workspace }}/scripts/run-e2e-android-release.sh
